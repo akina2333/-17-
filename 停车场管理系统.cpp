@@ -6,31 +6,31 @@
 #define FALSE 0
 #define INFEASIBLE -1
 #define OVERFLOW -2
-#define SIZE 5  //Í£³µ³¡³µÎ»Êı
-typedef struct Car1{	//Í£³µ³¡µÄ³µ
-	int number;				//³µÅÆ
-	int ArriveHour,ArriveMin;			//µ½´ïÊ±¼ä
+#define SIZE 5  //åœè½¦åœºè½¦ä½æ•°
+typedef struct Car1{	//åœè½¦åœºçš„è½¦
+	int number;				//è½¦ç‰Œ
+	int ArriveHour,ArriveMin;			//åˆ°è¾¾æ—¶é—´
 }CarNode;
 
-typedef struct{			//Í£³µ
-	CarNode *base;			//¶ÑÕ»µ×
-	CarNode *top;			//¶ÑÕ»¶¥
-	int stacksize;			//¶ÑÕ»´óĞ¡ 
+typedef struct{			//åœè½¦
+	CarNode *base;			//å †æ ˆåº•
+	CarNode *top;			//å †æ ˆé¡¶
+	int stacksize;			//å †æ ˆå¤§å° 
 }Park;
 
-typedef struct Car2{	//±ãµÀµÄ³µ
-	int number;				//³µÅÆ
-	int ArriveHour,ArriveMin;			//µ½´ïÊ±¼ä
+typedef struct Car2{	//ä¾¿é“çš„è½¦
+	int number;				//è½¦ç‰Œ
+	int ArriveHour,ArriveMin;			//åˆ°è¾¾æ—¶é—´
 	struct Car2 *next;
 }*CarPtr;
 
-typedef struct{			//Í£ÔÚ±ãµÀ
-	CarPtr front;		//±ãµÀµÄ¶ÓÊ× 
-	CarPtr rear;		//±ãµÀµÄ¶ÓÎ²
+typedef struct{			//åœåœ¨ä¾¿é“
+	CarPtr front;		//ä¾¿é“çš„é˜Ÿé¦– 
+	CarPtr rear;		//ä¾¿é“çš„é˜Ÿå°¾
 	int length;
 }Sidewalk;
 
-int InitStack(Park &P){		//³õÊ¼»¯Í£³µ³¡
+int InitStack(Park &P){		//åˆå§‹åŒ–åœè½¦åœº
 	P.base=(CarNode*)malloc(SIZE*sizeof(Car1));
 	if(!P.base) exit(OVERFLOW);
 	P.top=P.base;
@@ -38,15 +38,15 @@ int InitStack(Park &P){		//³õÊ¼»¯Í£³µ³¡
 	return 1;
 }
 
-int Push(Park &p,CarNode e){	//³µ½øÈëÍ£³µ³¡
+int Push(Park &p,CarNode e){	//è½¦è¿›å…¥åœè½¦åœº
 	*p.top++=e;
 	++p.stacksize;
 	return 1;
 }
 
-int Pop(Park &p,CarNode &e){	//³µÀë¿ªÍ£³µ³¡
+int Pop(Park &p,CarNode &e){	//è½¦ç¦»å¼€åœè½¦åœº
 	if(p.top==p.base){
-		printf("Í£³µ³¡Îª¿Õ.");
+		printf("åœè½¦åœºä¸ºç©º.");
 	}else{
 		e=*--p.top;
 		--p.stacksize;
@@ -54,7 +54,7 @@ int Pop(Park &p,CarNode &e){	//³µÀë¿ªÍ£³µ³¡
 	return 1;
 }
 
-int InitQueue(Sidewalk &S){	//³õÊ¼»¯±ãµÀ
+int InitQueue(Sidewalk &S){	//åˆå§‹åŒ–ä¾¿é“
 	S.front=S.rear=(CarPtr)malloc(sizeof(Car2));
 	if(!S.front||!S.rear){
 		exit(OVERFLOW);
@@ -64,7 +64,7 @@ int InitQueue(Sidewalk &S){	//³õÊ¼»¯±ãµÀ
 	return 1;
 }
 
-int EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//³µ½øÈë±ãµÀ
+int EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//è½¦è¿›å…¥ä¾¿é“
 	CarPtr p;
 	p=(CarPtr)malloc(sizeof(Car2));
 	if(!p){
@@ -80,9 +80,9 @@ int EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//³µ½øÈë±ãµÀ
 	return 1;
 }
 
-int DeQueue(Sidewalk &S,CarPtr &w){//³µÀë¿ª±ãµÀ
+int DeQueue(Sidewalk &S,CarPtr &w){//è½¦ç¦»å¼€ä¾¿é“
 	if(S.length == 0){
-		printf("±ãµÀÎª¿Õ");
+		printf("ä¾¿é“ä¸ºç©º");
 	}
 	else{
 		w = S.front->next;
@@ -92,12 +92,12 @@ int DeQueue(Sidewalk &S,CarPtr &w){//³µÀë¿ª±ãµÀ
 	return 1;
 }
 
-int Arrive(Park &P,Sidewalk &S){   //´¦Àí½øÕ¾³µÁ¾ 
+int Arrive(Park &P,Sidewalk &S){   //å¤„ç†è¿›ç«™è½¦è¾† 
 	int ArriveHour,ArriveMin;
 	int number;
-	printf("ÇëÊäÈë³µÅÆºÅ£º");
-	scanf("%d",&number);
-	printf("½ø³¡Ê±¼ä:");
+	printf("è¯·è¾“å…¥è½¦ç‰Œå·ï¼š");
+	scanf("%s",&number);
+	printf("è¿›åœºæ—¶é—´:");
 	scanf("%d:%d",&ArriveHour,&ArriveMin);
 	if(P.stacksize<SIZE){
 		CarNode c;
@@ -105,19 +105,19 @@ int Arrive(Park &P,Sidewalk &S){   //´¦Àí½øÕ¾³µÁ¾
 		c.ArriveHour=ArriveHour;
 		c.ArriveMin=ArriveMin;
 		Push(P,c);
-		printf("¸Ã³µÍ£ÔÚµÚ%dºÅ³µÎ».\n",P.stacksize);
+		printf("è¯¥è½¦åœåœ¨ç¬¬%då·è½¦ä½.\n",P.stacksize);
 	}
 	else{
 		EnQueue(S,number,ArriveHour,ArriveMin);
-		printf("Í£³µ³¡ÒÑÂú£¡\nÇëÍ£ÔÚ±ãµÀµÄµÚ%d¸öÎ»ÖÃ.\n",S.length);
+		printf("åœè½¦åœºå·²æ»¡ï¼\nè¯·åœåœ¨ä¾¿é“çš„ç¬¬%dä¸ªä½ç½®.\n",S.length);
 	}
 	return 1;
 }
-int Leave(Park &P,Park &P1,Sidewalk &S){   //´¦ÀíÀëÕ¾³µ 
+int Leave(Park &P,Park &P1,Sidewalk &S){   //å¤„ç†ç¦»ç«™è½¦ 
 	int number,LeaveHour,LeaveMin,flag=1,money,ArriveHour,ArriveMin;
-	printf("ÇëÊäÈë³µÅÆºÅ£º");
-	scanf("%d",&number);
-	printf("³ö³¡Ê±¼ä:");
+	printf("è¯·è¾“å…¥è½¦ç‰Œå·ï¼š");
+	scanf("%s",&number);
+	printf("å‡ºåœºæ—¶é—´:");
 	scanf("%d:%d",&LeaveHour,&LeaveMin);
 	CarNode e,m;
 	CarPtr w;
@@ -133,9 +133,9 @@ int Leave(Park &P,Park &P1,Sidewalk &S){   //´¦ÀíÀëÕ¾³µ
 			}else if(LeaveHour>e.ArriveHour&&LeaveMin<e.ArriveMin){
 				money=2*(LeaveHour-e.ArriveHour);
 			}else{
-				printf("Ê±¼äÊäÈë´íÎó£¡"); 
+				printf("æ—¶é—´è¾“å…¥é”™è¯¯ï¼"); 
 			}
-			//Ã¿Ğ¡Ê±2Ôª£¬Î´Âú1Ğ¡Ê±°´Ò»Ğ¡Ê±¼ÆËã 
+			//æ¯å°æ—¶2å…ƒï¼Œæœªæ»¡1å°æ—¶æŒ‰ä¸€å°æ—¶è®¡ç®— 
 			ArriveHour=e.ArriveHour;
 			ArriveMin=e.ArriveMin;
 			break;
@@ -147,7 +147,7 @@ int Leave(Park &P,Park &P1,Sidewalk &S){   //´¦ÀíÀëÕ¾³µ
 		Pop(P1,e);
 		Push(P,e);
 	}
-	// ³µ´ÓÍ£³µ³¡ÖĞ³ö
+	// è½¦ä»åœè½¦åœºä¸­å‡º
 	if (flag == 0)
 	{
 		if(S.length!=0)
@@ -158,25 +158,25 @@ int Leave(Park &P,Park &P1,Sidewalk &S){   //´¦ÀíÀëÕ¾³µ
 			m.number=w->number;
 			Push(P,m);
 			free(w);
-			printf("³µÅÆºÅÎª%dµÄ³µÒÑÓÉ±ãµÀ½øÈëÍ£³µ³¡\n",m.number);
+			printf("è½¦ç‰Œå·ä¸º%dçš„è½¦å·²ç”±ä¾¿é“è¿›å…¥åœè½¦åœº\n",m.number);
 		}
-		printf("Í£³µ·ÑÎª%dÔª, Õ¼ÓÃ³µÎ»ÊıÎª%d\n",money,P.stacksize);
+		printf("åœè½¦è´¹ä¸º%då…ƒ, å ç”¨è½¦ä½æ•°ä¸º%d\n",money,P.stacksize);
 	}
 	else
 	{
-		printf("¸Ã³µÅÆºÅ²»´æÔÚ\n", number);
+		printf("è¯¥è½¦ç‰Œå·ä¸å­˜åœ¨\n", number);
 	}
 	return 1;
 }
 int Admin1(Park &P,Park &P1,Sidewalk &S){
 	int number,flag=1;
-	printf("ÇëÊäÈë³µÅÆºÅ£º");
-	scanf("%d",&number);
+	printf("è¯·è¾“å…¥è½¦ç‰Œå·ï¼š");
+	scanf("%s",&number);
 	if(P.stacksize<SIZE){
 		CarNode c;
 		c.number=number;
 		Push(P,c);
-		printf("¸Ã³µÍ£ÔÚµÚ%dºÅ³µÎ».\n",P.stacksize);
+		printf("è¯¥è½¦åœåœ¨ç¬¬%då·è½¦ä½.\n",P.stacksize);
 	}
 	CarNode e;
 	while(P.stacksize)
@@ -196,17 +196,17 @@ int Admin1(Park &P,Park &P1,Sidewalk &S){
 	if (flag == 0)
 	{
 		
-		printf("µ±Ç°Ê£Óà³µÎ»ÊıÎª%d",SIZE-P.stacksize);
+		printf("å½“å‰å‰©ä½™è½¦ä½æ•°ä¸º%d",SIZE-P.stacksize);
 	}
 	else
 	{
-		printf("¸Ã³µÅÆºÅ²»´æÔÚ\n", number);
+		printf("è¯¥è½¦ç‰Œå·ä¸å­˜åœ¨\n", number);
 	}
 	return 1;
 }
 int main(){
 	int m=1;
-	char flag;		//Ñ¡Ïî
+	char flag;		//é€‰é¡¹
 	Park P,Q;
 	Sidewalk S;
 	InitStack(P);
@@ -216,26 +216,26 @@ int main(){
 	{
 		
 		printf("---------------------------------------------");
-		printf("\n\tÍ£³µ³¡¹ÜÀí³ÌĞò \n\n");
-		printf("1.Í£³µ\n2.Àë¿ª\n3.³µÁ¾²éÑ¯\n4.ÍË³ö³ÌĞò\n"); 
+		printf("\n\tåœè½¦åœºç®¡ç†ç¨‹åº \n\n");
+		printf("1.åœè½¦\n2.ç¦»å¼€\n3.è½¦è¾†æŸ¥è¯¢\n4.é€€å‡ºç¨‹åº\n"); 
 		printf("---------------------------------------------");
-		printf("\nÇëÊäÈë£º"); 
+		printf("\nè¯·è¾“å…¥ï¼š"); 
 		scanf("%c",&flag);
 		switch(flag)
 		{
 		case '1':
 			Arrive(P,S);
-			break; 	//³µ½øÈëÍ£³µ³¡
+			break; 	//è½¦è¿›å…¥åœè½¦åœº
 		case '2':
 			Leave(P,Q,S);
-			break; 	//³µÀë¿ªÍ£³µ³¡
+			break; 	//è½¦ç¦»å¼€åœè½¦åœº
 		case'3':
 			Admin1(P,Q,S);
 		case '4':
 			m=0;
 		break;
 		default:
-			printf("ÊäÈë´íÎó!\n");
+			printf("è¾“å…¥é”™è¯¯!\n");
 		break;
 		}
 		while (flag != '\n')
