@@ -30,41 +30,52 @@ typedef struct{			//停在便道
 	int length;
 }Sidewalk;
 
-int InitStack(Park &P){		//初始化停车场
+void InitStack();
+void InitQueue();
+void Push();
+void Pop();
+void EnQueue();
+void DeQueue();
+void Arrive();
+void Leave();
+void Search1();  //车牌号查询 
+void Search2();  //全部查询 
+ 
+
+
+
+void InitStack(Park &P){		//初始化停车场
 	P.base=(CarNode*)malloc(SIZE*sizeof(Car1));
 	if(!P.base) exit(OVERFLOW);
 	P.top=P.base;
 	P.stacksize=0;
-	return 1;
+
 }
 
-int Push(Park &p,CarNode e){	//车进入停车场
+void Push(Park &p,CarNode e){	//车进入停车场
 	*p.top++=e;
 	++p.stacksize;
-	return 1;
 }
 
-int Pop(Park &p,CarNode &e){	//车离开停车场
+void Pop(Park &p,CarNode &e){	//车离开停车场
 	if(p.top==p.base){
 		printf("停车场为空.");
 	}else{
 		e=*--p.top;
 		--p.stacksize;
 	}
-	return 1;
 }
 
-int InitQueue(Sidewalk &S){	//初始化便道
+void InitQueue(Sidewalk &S){	//初始化便道
 	S.front=S.rear=(CarPtr)malloc(sizeof(Car2));
 	if(!S.front||!S.rear){
 		exit(OVERFLOW);
 	}
 	S.front->next=NULL;
 	S.length=0;
-	return 1;
 }
 
-int EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//车进入便道
+void EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//车进入便道
 	CarPtr p;
 	p=(CarPtr)malloc(sizeof(Car2));
 	if(!p){
@@ -77,10 +88,9 @@ int EnQueue(Sidewalk &S,char number,int ArriveHour,int ArriveMin){		//车进入�
 	S.rear->next=p;
 	S.rear=p;
 	++S.length;
-	return 1;
 }
 
-int DeQueue(Sidewalk &S,CarPtr &w){//车离开便道
+void DeQueue(Sidewalk &S,CarPtr &w){//车离开便道
 	if(S.length == 0){
 		printf("便道为空");
 	}
@@ -89,14 +99,13 @@ int DeQueue(Sidewalk &S,CarPtr &w){//车离开便道
 		S.front->next=S.front->next->next;
 		--S.length;
 	}
-	return 1;
 }
 
-int Arrive(Park &P,Sidewalk &S){   //处理进站车辆 
+void Arrive(Park &P,Sidewalk &S){   //处理进站车辆 
 	int ArriveHour,ArriveMin;
 	int number;
 	printf("请输入车牌号：");
-	scanf("%s",&number);
+	scanf("%d",&number);
 	printf("进场时间:");
 	scanf("%d:%d",&ArriveHour,&ArriveMin);
 	if(P.stacksize<SIZE){
@@ -111,12 +120,12 @@ int Arrive(Park &P,Sidewalk &S){   //处理进站车辆
 		EnQueue(S,number,ArriveHour,ArriveMin);
 		printf("停车场已满！\n请停在便道的第%d个位置.\n",S.length);
 	}
-	return 1;
+
 }
-int Leave(Park &P,Park &P1,Sidewalk &S){   //处理离站车 
+void Leave(Park &P,Park &P1,Sidewalk &S){   //处理离站车 
 	int number,LeaveHour,LeaveMin,flag=1,money,ArriveHour,ArriveMin;
 	printf("请输入车牌号：");
-	scanf("%s",&number);
+	scanf("%d",&number);
 	printf("出场时间:");
 	scanf("%d:%d",&LeaveHour,&LeaveMin);
 	CarNode e,m;
@@ -166,12 +175,12 @@ int Leave(Park &P,Park &P1,Sidewalk &S){   //处理离站车
 	{
 		printf("该车牌号不存在\n", number);
 	}
-	return 1;
+
 }
-int Admin1(Park &P,Park &P1,Sidewalk &S){
+void Search1(Park &P,Park &P1,Sidewalk &S){
 	int number,flag=1;
 	printf("请输入车牌号：");
-	scanf("%s",&number);
+	scanf("%d",&number);
 	if(P.stacksize<SIZE){
 		CarNode c;
 		c.number=number;
@@ -202,9 +211,19 @@ int Admin1(Park &P,Park &P1,Sidewalk &S){
 	{
 		printf("该车牌号不存在\n", number);
 	}
-	return 1;
+
 }
+
+
 int main(){
+	
+	printf("---------------------------------------------");
+	printf("\n\t\t停车场管理程序 \n\n");
+	printf("\t\tA.用户登入\n\n\t\tB.管理员登入\n\n"); 
+	printf("---------------------------------------------");
+	char d;
+	printf("\n请输入："); 
+	scanf("%c",&d);
 	int m=1;
 	char flag;		//选项
 	Park P,Q;
@@ -212,33 +231,44 @@ int main(){
 	InitStack(P);
 	InitStack(Q);
 	InitQueue(S);
-	while(m)
-	{
-		
-		printf("---------------------------------------------");
-		printf("\n\t停车场管理程序 \n\n");
-		printf("1.停车\n2.离开\n3.车辆查询\n4.退出程序\n"); 
-		printf("---------------------------------------------");
-		printf("\n请输入："); 
-		scanf("%c",&flag);
-		switch(flag)
-		{
-		case '1':
-			Arrive(P,S);
-			break; 	//车进入停车场
-		case '2':
-			Leave(P,Q,S);
-			break; 	//车离开停车场
-		case'3':
-			Admin1(P,Q,S);
-		case '4':
-			m=0;
-		break;
-		default:
-			printf("输入错误!\n");
-		break;
-		}
-		while (flag != '\n')
+	switch(d){
+		case 'a':
+		case 'A':
+			printf("---------------------------------------------");
+			printf("\n\t\t停车场管理程序 \n\n");
+			printf("\t\t1.停车\n\t\t2.离开\n\t\t3.车辆查询\n\t\t4.退出程序\n\n"); 
+			printf("---------------------------------------------");
+			printf("\n请输入：");
+			while(m){
+			
 			scanf("%c",&flag);
+			switch(flag)
+			{
+			case '1':
+				Arrive(P,S);
+				break; 	//车进入停车场
+			case '2':
+				Leave(P,Q,S);
+				break; 	//车离开停车场
+			case '3':
+				Search1(P,Q,S);
+			case '4':
+				m=0;
+				break;
+			
+			}
+			while (flag != '\n')
+				scanf("%c",&flag);
+			}
+			break;
+				
+		case 'B':
+		case 'b':
+			printf("zanwu");
+			break;
+		default: 
+			printf("输入错误");
+			break;
 	}
+	return 0;
 }
