@@ -238,7 +238,7 @@ int main(){
 			printf("\n\t\t停车场管理程序 \n\n");
 			printf("\t\t1.停车\n\t\t2.离开\n\t\t3.车辆查询\n\t\t4.退出程序\n\n"); 
 			printf("---------------------------------------------");
-			printf("\n请输入：");
+			printf("\n\n\t请输入(1/2/3/4)：");
 			while(m){
 			
 			scanf("%c",&flag);
@@ -257,8 +257,11 @@ int main(){
 				break;
 			
 			}
-			while (flag != '\n')
+			while (flag != '\n'){
+				printf("\n\n请输入（1/2/3/4）:");
 				scanf("%c",&flag);
+			}
+				
 			}
 			break;
 				
