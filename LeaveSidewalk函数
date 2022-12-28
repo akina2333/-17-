@@ -1,0 +1,40 @@
+void LeaveSidewalk(){
+	int i, j, flag = 0;
+	printf("请输入即将离开的车牌号：");
+	scanf("%s", &C);
+	if(s.length<=0){
+		printf("便道上不存在汽车!\n");
+		return;
+	}
+	while(s.length > 0){					 
+		i = s.front; 
+		if(strcmp(s.Side[i].number,C)==0){
+			break;	
+		}
+		printf("牌照为%s的汽车暂时从便道进入临时便道\n", s.Side[s.front].number);
+		strcpy(w.Wait[w.rear].number, s.Side[s.front].number);
+		s.front=(s.front+1) %SMAX;	
+		w.rear=(w.rear+1) %SMAX;	
+		w.length++;							
+		s.length--;							
+	}
+	printf("\n牌照为%s的汽车从便道上开走，不收取任何费用！\n\n",s.Side[i].number); 
+	s.front= (s.front+1)%SMAX;
+	s.length--;
+	while(s.length > 0){		
+		printf("牌照为%s的汽车暂时从便道进入临时便道\n",s.Side[s.front].number);
+		strcpy(w.Wait[w.rear].number,s.Side[s.front].number);
+		s.front = (s.front + 1) %SMAX;
+		w.rear = (w.rear + 1) %SMAX;
+		w.length++;
+		s.length--;
+	}
+	while(w.length > 0){		
+		printf("\n牌照为%s的汽车返回便道\n",w.Wait[w.front].number);
+		strcpy(s.Side[s.rear].number, w.Wait[w.front].number);
+		w.front = (w.front + 1) %SMAX;	 
+		s.rear = (s.rear + 1) %SMAX;
+		w.length--;
+		s.length++;
+	}
+}
