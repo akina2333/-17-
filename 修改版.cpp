@@ -1,9 +1,9 @@
 #include <stdio.h>		
 #include <string.h>			
 #include <time.h>			
-#define money  0.03  //Í£³µ³¡¼Æ·Ñ	 
-#define PMAX  5  //Í£³µ³¡ÈİÁ¿ 
-#define SMAX  4  //±ãµÀÈİÁ¿ 
+#define money  0.03  //åœè½¦åœºè®¡è´¹	 
+#define PMAX  5  //åœè½¦åœºå®¹é‡ 
+#define SMAX  4  //ä¾¿é“å®¹é‡ 
 
 typedef struct{
 	int ArriveTime;				
@@ -17,7 +17,7 @@ typedef struct{
 	int top;			
 }Park;
 
-typedef struct{    //Í£ÔÚ±ãµÀ 
+typedef struct{    //åœåœ¨ä¾¿é“ 
 	CarNode Side[SMAX];		
 	int length;				
 	int front, rear;		
@@ -40,7 +40,7 @@ Sidewalk s;
 Cache h;
 Waiting w;
 
-char     C[10];  //´ı²éÑ¯³µÅÆºÅ 
+char     C[10];  //å¾…æŸ¥è¯¢è½¦ç‰Œå· 
 
 void Arrive();	
 void Leave();		
@@ -58,12 +58,12 @@ void Change();
 
 
 void Arrive(){						 
-	printf("ÇëÊäÈëÄúµÄ³µÅÆºÅ£º");
+	printf("è¯·è¾“å…¥æ‚¨çš„è½¦ç‰Œå·ï¼š");
 	scanf("%s",&C);		
 	int i=p.top;
 	while(i!=-1){
 		if(0 == strcmp(p.Park[i].number,C)){
-			printf("ÊäÈëÓĞÎó£¬´ËÆû³µÒÑ´æÔÚ£¡\n");
+			printf("è¾“å…¥æœ‰è¯¯ï¼Œæ­¤æ±½è½¦å·²å­˜åœ¨ï¼\n");
 			return ;
 		}
 		i--;
@@ -71,13 +71,13 @@ void Arrive(){
 	int k=SMAX;
 	while(k!= 0){
 		if(0 == strcmp(s.Side[k].number,C)){
-			printf("ÊäÈëÓĞÎó£¬´ËÆû³µÒÑ´æÔÚ£¡\n");
+			printf("è¾“å…¥æœ‰è¯¯ï¼Œæ­¤æ±½è½¦å·²å­˜åœ¨ï¼\n");
 			return ;
 		}
 		k--;
 	}
 	if (p.top>=PMAX-1){
-		Stop_To_Pave();		//½øÈë±ãµÀ	
+		Stop_To_Pave();		//è¿›å…¥ä¾¿é“	
 	}
 	else{
 		time_t t1;
@@ -87,12 +87,12 @@ void Arrive(){
 		p.Park[++p.top].ArriveTime=t;
 		strcpy(p.Park[p.top].ct, t2);
 		strcpy(p.Park[p.top].number,C);
-		printf("ÅÆÕÕÎª%sµÄÆû³µÍ£ÈëÍ£³µÎ»µÄ%d³µÎ»£¬µ±Ç°Ê±¼ä£º%s\n",C,p.top+1,t2);
+		printf("ç‰Œç…§ä¸º%sçš„æ±½è½¦åœå…¥åœè½¦ä½çš„%dè½¦ä½ï¼Œå½“å‰æ—¶é—´ï¼š%s\n",C,p.top+1,t2);
 	}
 }
 
 void Leave(){						
-	printf("ÇëÊäÈëÄúµÄ³µÅÆºÅ£º");
+	printf("è¯·è¾“å…¥æ‚¨çš„è½¦ç‰Œå·ï¼š");
 	scanf("%s", &C);
 	int i,j,flag=1;
 	if(p.top >= 0){							
@@ -105,12 +105,12 @@ void Leave(){
 		Stop_To_Buff();							
 	}	
 	if(flag !=0 )				
-	printf("Î´²éÑ¯µ½¸Ã³µĞÅÏ¢¡£\n"); 
+	printf("æœªæŸ¥è¯¢åˆ°è¯¥è½¦ä¿¡æ¯ã€‚\n"); 
 }
 
 
 void Search(){
-	printf("ÇëÊäÈëÒª²éÑ¯µÄ³µÅÆºÅ£º\n");
+	printf("è¯·è¾“å…¥è¦æŸ¥è¯¢çš„è½¦ç‰Œå·ï¼š\n");
 	scanf("%s", &C);
 	int i,j,k,flag=0;        
 	time_t t1;
@@ -118,9 +118,9 @@ void Search(){
 	if(p.top>= 0){
 		for(i =p.top;i>=0;i--){
 			if(strcmp(p.Park[i].number,C)==0){
-			printf("´ËÆû³µÔÚÍ£³µ³¡ÄÚ£¬ĞÅÏ¢ÈçÏÂ£º\n");
-			printf("\t³µÅÆºÅ\t\tÍ£³µÎ»Ğò\tµ±Ç°ËùĞèÖ§¸¶½ğ¶î\t½øÈëÊ±¼ä\t\n");
-			printf("\t%s\tµÚ%d¸ö\t\t%0.fÔª\t\t\t%s",p.Park[i].number,i+1,money*(t-p.Park[i].ArriveTime),p.Park[i].ct);
+			printf("æ­¤æ±½è½¦åœ¨åœè½¦åœºå†…ï¼Œä¿¡æ¯å¦‚ä¸‹ï¼š\n");
+			printf("\tè½¦ç‰Œå·\t\tåœè½¦ä½åº\tå½“å‰æ‰€éœ€æ”¯ä»˜é‡‘é¢\tè¿›å…¥æ—¶é—´\t\n");
+			printf("\t%s\tç¬¬%dä¸ª\t\t%0.få…ƒ\t\t\t%s",p.Park[i].number,i+1,money*(t-p.Park[i].ArriveTime),p.Park[i].ct);
 			flag=1;
 			break;
 			} 
@@ -130,9 +130,9 @@ void Search(){
 		i=s.front,k=1,j=s.rear;			
 		while(i!=j){
 			if(strcmp(s.Side[i].number,C)==0){
-				printf("´ËÆû³µÍ£ÔÚ±ãµÀÉÏ\n");
-				printf("\t³µÅÆºÅ\t\tÍ£³µÎ»Ğò\n");
-				printf("\t%s\tµÚ%d¸ö",s.Side[i].number, k);
+				printf("æ­¤æ±½è½¦åœåœ¨ä¾¿é“ä¸Š\n");
+				printf("\tè½¦ç‰Œå·\t\tåœè½¦ä½åº\n");
+				printf("\t%s\tç¬¬%dä¸ª",s.Side[i].number, k);
 				flag=2;
 				break;
 			}
@@ -141,12 +141,49 @@ void Search(){
 		}	
 	}
 	if(0 == flag)
-		printf("Í£³µ³¡ÄÚÍâÎ´²éÑ¯µ½¸ÃÆû³µĞÅÏ¢£¡\n");
+		printf("åœè½¦åœºå†…å¤–æœªæŸ¥è¯¢åˆ°è¯¥æ±½è½¦ä¿¡æ¯ï¼\n");
 	
 }
 
 void LeaveSidewalk(){
-	
+	int i, j, flag = 0;
+	printf("è¯·è¾“å…¥å³å°†ç¦»å¼€çš„è½¦ç‰Œå·ï¼š");
+	scanf("%s", &C);
+	if(s.length<=0){
+		printf("ä¾¿é“ä¸Šä¸å­˜åœ¨æ±½è½¦!\n");
+		return;
+	}
+	while(s.length > 0){					 
+		i = s.front; 
+		if(strcmp(s.Side[i].number,C)==0){
+			break;	
+		}
+		printf("ç‰Œç…§ä¸º%sçš„æ±½è½¦æš‚æ—¶ä»ä¾¿é“è¿›å…¥ä¸´æ—¶ä¾¿é“\n", s.Side[s.front].number);
+		strcpy(w.Wait[w.rear].number, s.Side[s.front].number);
+		s.front=(s.front+1) %SMAX;	
+		w.rear=(w.rear+1) %SMAX;	
+		w.length++;							
+		s.length--;							
+	}
+	printf("\nç‰Œç…§ä¸º%sçš„æ±½è½¦ä»ä¾¿é“ä¸Šå¼€èµ°ï¼Œä¸æ”¶å–ä»»ä½•è´¹ç”¨ï¼\n\n",s.Side[i].number); 
+	s.front= (s.front+1)%SMAX;
+	s.length--;
+	while(s.length > 0){		
+		printf("ç‰Œç…§ä¸º%sçš„æ±½è½¦æš‚æ—¶ä»ä¾¿é“è¿›å…¥ä¸´æ—¶ä¾¿é“\n",s.Side[s.front].number);
+		strcpy(w.Wait[w.rear].number,s.Side[s.front].number);
+		s.front = (s.front + 1) %SMAX;
+		w.rear = (w.rear + 1) %SMAX;
+		w.length++;
+		s.length--;
+	}
+	while(w.length > 0){		
+		printf("\nç‰Œç…§ä¸º%sçš„æ±½è½¦è¿”å›ä¾¿é“\n",w.Wait[w.front].number);
+		strcpy(s.Side[s.rear].number, w.Wait[w.front].number);
+		w.front = (w.front + 1) %SMAX;	 
+		s.rear = (s.rear + 1) %SMAX;
+		w.length--;
+		s.length++;
+	}
 }
 
 
@@ -156,12 +193,12 @@ void Stop_To_Buff(){
 
 void Stop_To_Pave(){
 	if(s.length > 0 && (s.front == (s.rear + 1) % SMAX))
-		printf("±ãµÀÒÑÂú£¬ÇëÏÂ´ÎÔÙÀ´£¡\n");
+		printf("ä¾¿é“å·²æ»¡ï¼Œè¯·ä¸‹æ¬¡å†æ¥ï¼\n");
 	else{
 		strcpy(s.Side[s.rear].number, C);
 		s.rear = (s.rear + 1) % SMAX;
 		s.length++;
-		printf("ÅÆÕÕÎª%sµÄÆû³µÍ£Èë±ãµÀÉÏ\n",C);
+		printf("ç‰Œç…§ä¸º%sçš„æ±½è½¦åœå…¥ä¾¿é“ä¸Š\n",C);
 	}
 }
 
@@ -184,13 +221,13 @@ void CarLeave_menu(){
 		if(1 == i)  Leave();
 		if(2 == i)  LeaveSidewalk();
 		if(3 == i)  return;
-		printf("\n·µ»ØÇëÊäÈë0\n");
+		printf("\nè¿”å›è¯·è¾“å…¥0\n");
 		
 		if(flag==0){
 			continue;
 		}
 		else{
-			printf("ÄúµÄÊäÈëÓĞÎó£¬ÇëÖØĞÂÊäÈë\n");
+			printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥\n");
 		
 		}
 	}	
@@ -202,57 +239,57 @@ void Change(){
 	
 }
 void Welcome1(){
-    printf ("\n\t-------------------------Welcome£¡---------------------\n");
+    printf ("\n\t-------------------------Welcomeï¼---------------------\n");
     printf ("\t                                                      \n");
-    printf ("\t                   1.½øÈëÓÃ»§ÏµÍ³                 \n\n");
-    printf ("\t                   2.½øÈë¹ÜÀíÔ±ÏµÍ³                   \n\n");
+    printf ("\t                   1.è¿›å…¥ç”¨æˆ·ç³»ç»Ÿ                 \n\n");
+    printf ("\t                   2.è¿›å…¥ç®¡ç†å‘˜ç³»ç»Ÿ                   \n\n");
     printf ("\t------------------------------------------------------\n");
-    printf ("\tÇëÊäÈë(1/2)£º\n");
+    printf ("\tè¯·è¾“å…¥(1/2)ï¼š\n");
 } 
 
 void Welcome2(){
-	printf ("\t*******************µ±Ç°Í£³µ³¡Í£·ÅÇé¿ö*******************\n");
-    printf ("\t\tµ±Ç°Í£³µ³¡¹²ÓĞ%d/%dÁ¾³µ,µÈºòÇø¹²ÓĞ%d/%dÁ¾³µ\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
+	printf ("\t*******************å½“å‰åœè½¦åœºåœæ”¾æƒ…å†µ*******************\n");
+    printf ("\t\tå½“å‰åœè½¦åœºå…±æœ‰%d/%dè¾†è½¦,ç­‰å€™åŒºå…±æœ‰%d/%dè¾†è½¦\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
     printf ("\t********************************************************\n\n");
-    printf ("\t-------------------------Goodbye£¡----------------------\n");
+    printf ("\t-------------------------Goodbyeï¼----------------------\n");
     printf ("\t                                                      \n");
-    printf ("\t                   1.´ÓÍ£³µ³¡ÄÚÊ»³ö                 \n");
-    printf ("\t                   2.´Ó±ãµÀÉÏÊ»³ö                   \n");
-    printf ("\t                   3.·µ»ØÉÏÒ»¼¶                    \n\n\n");
-    printf ("\tÊÕ·Ñ±ê×¼£º±¾Í£³µ³¡°´ÕÕ0.03Ôª/·ÖÖÓ¼Æ·Ñ            \n\n");
+    printf ("\t                   1.ä»åœè½¦åœºå†…é©¶å‡º                 \n");
+    printf ("\t                   2.ä»ä¾¿é“ä¸Šé©¶å‡º                   \n");
+    printf ("\t                   3.è¿”å›ä¸Šä¸€çº§                    \n\n\n");
+    printf ("\tæ”¶è´¹æ ‡å‡†ï¼šæœ¬åœè½¦åœºæŒ‰ç…§0.03å…ƒ/åˆ†é’Ÿè®¡è´¹            \n\n");
     printf ("\t------------------------------------------------------\n");
-    printf ("\tÇëÊäÈë(1/2/3)£º\n");
+    printf ("\tè¯·è¾“å…¥(1/2/3)ï¼š\n");
 }
 void Welcome3(){
-	printf ("\t*******************µ±Ç°Í£³µ³¡Í£·ÅÇé¿ö*******************\n");
-    printf ("\t\tµ±Ç°Í£³µ³¡¹²ÓĞ%d/%dÁ¾³µ,µÈºòÇø¹²ÓĞ%d/%dÁ¾³µ\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
+	printf ("\t*******************å½“å‰åœè½¦åœºåœæ”¾æƒ…å†µ*******************\n");
+    printf ("\t\tå½“å‰åœè½¦åœºå…±æœ‰%d/%dè¾†è½¦,ç­‰å€™åŒºå…±æœ‰%d/%dè¾†è½¦\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
     printf ("\t********************************************************\n\n");
     printf ("\t-------------------------Welcome!---------------------\n");
     printf ("\t                                                      \n");
-    printf ("\t                   1.Í£³µ³¡Í£³µĞÅÏ¢²éÑ¯               \n");
-    printf ("\t                   2.±ãµÀÍ£³µĞÅÏ¢²éÑ¯               \n");
-    printf ("\t                   3.É¾³ıĞÅÏ¢                     \n");
-    printf ("\t                   4.ĞŞ¸ÄĞÅÏ¢                           \n");
-    printf ("\t                   5.ÍË³öÏµÍ³                       \n");
+    printf ("\t                   1.åœè½¦åœºåœè½¦ä¿¡æ¯æŸ¥è¯¢               \n");
+    printf ("\t                   2.ä¾¿é“åœè½¦ä¿¡æ¯æŸ¥è¯¢               \n");
+    printf ("\t                   3.åˆ é™¤ä¿¡æ¯                     \n");
+    printf ("\t                   4.ä¿®æ”¹ä¿¡æ¯                           \n");
+    printf ("\t                   5.é€€å‡ºç³»ç»Ÿ                       \n");
     printf ("\t\n\n");
     printf ("\t------------------------------------------------------\n");
-    printf ("\tÇëÊäÈë(1/2/3/4/5)£º\n");
+    printf ("\tè¯·è¾“å…¥(1/2/3/4/5)ï¼š\n");
 }
 
 void Welcome(){
 
-	printf ("\t*******************µ±Ç°Í£³µ³¡Í£·ÅÇé¿ö*******************\n");
-    printf ("\t\tµ±Ç°Í£³µ³¡¹²ÓĞ%d/%dÁ¾³µ,µÈºòÇø¹²ÓĞ%d/%dÁ¾³µ\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
+	printf ("\t*******************å½“å‰åœè½¦åœºåœæ”¾æƒ…å†µ*******************\n");
+    printf ("\t\tå½“å‰åœè½¦åœºå…±æœ‰%d/%dè¾†è½¦,ç­‰å€™åŒºå…±æœ‰%d/%dè¾†è½¦\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
     printf ("\t********************************************************\n\n");
     printf ("\t-------------------------Welcome!---------------------\n");
     printf ("\t                                                      \n");
-    printf ("\t                   1.½øÈëÍ£³µ³¡                           \n");
-    printf ("\t                   2.Àë¿ª                           \n");
-    printf ("\t                   3.²éÑ¯³µÁ¾                       \n");
-    printf ("\t                   4.ÍË³öÏµÍ³                     \n\n\n");
-    printf ("\tÊÕ·Ñ±ê×¼£º±¾Í£³µ³¡°´ÕÕ0.03Ôª/·ÖÖÓ¼Æ·Ñ            \n\n");
+    printf ("\t                   1.è¿›å…¥åœè½¦åœº                           \n");
+    printf ("\t                   2.ç¦»å¼€                           \n");
+    printf ("\t                   3.æŸ¥è¯¢è½¦è¾†                       \n");
+    printf ("\t                   4.é€€å‡ºç³»ç»Ÿ                     \n\n\n");
+    printf ("\tæ”¶è´¹æ ‡å‡†ï¼šæœ¬åœè½¦åœºæŒ‰ç…§0.03å…ƒ/åˆ†é’Ÿè®¡è´¹            \n\n");
     printf ("\t------------------------------------------------------\n");
-    printf ("\tÇëÊäÈë(1/2/3/4)£º\n");
+    printf ("\tè¯·è¾“å…¥(1/2/3/4)ï¼š\n");
     
 }
 
@@ -277,17 +314,17 @@ int main(){
 			if(2 == i)  CarLeave_menu();
 			if(3 == i)  Search();
 			if(4 == i)  {
-							printf("\n»¶Ó­ÏÂ´ÎÊ¹ÓÃ£¬ÔÙ¼û£¡\n\n");
+							printf("\næ¬¢è¿ä¸‹æ¬¡ä½¿ç”¨ï¼Œå†è§ï¼\n\n");
 							break;
 						} 
-			printf("\n·µ»ØÇëÊäÈë0\n");
+			printf("\nè¿”å›è¯·è¾“å…¥0\n");
 			begin:	
 				scanf("%d", &cho);
 			if(0 == cho){
 				continue;
 			}
 			else{
-				printf("ÄúµÄÊäÈëÓĞÎó£¬ÇëÖØĞÂÊäÈë\n");
+				printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥\n");
 				goto begin;	
 			}
 		}
@@ -301,17 +338,17 @@ int main(){
 			if(3 == i)  Delete();
 			if(4 == i)  Change();
 			if(5 == i)  {
-							printf("\n»¶Ó­ÏÂ´ÎÊ¹ÓÃ£¬ÔÙ¼û£¡\n\n");
+							printf("\næ¬¢è¿ä¸‹æ¬¡ä½¿ç”¨ï¼Œå†è§ï¼\n\n");
 							break;
 						} 
-			printf("\n·µ»ØÇëÊäÈë0\n");
+			printf("\nè¿”å›è¯·è¾“å…¥0\n");
 			ok:	
 				scanf("%d", &cho);
 			if(0 == cho){
 				continue;
 			}
 			else{
-				printf("ÄúµÄÊäÈëÓĞÎó£¬ÇëÖØĞÂÊäÈë\n");
+				printf("æ‚¨çš„è¾“å…¥æœ‰è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥\n");
 				goto ok;	
 			}
 		}
