@@ -30,6 +30,10 @@ typedef struct{			//停在便道
 	int length;
 }Sidewalk;
 
+typedef struct {
+    char* spots[SIZE];
+} ParkingLot;
+
 void InitStack();
 void InitQueue();
 void Push();
@@ -40,7 +44,7 @@ void Arrive();
 void Leave();
 void Search1();  //车牌号查询 
 void Search2();  //全部查询 
- 
+void change();   //信息更改 
 
 
 
@@ -213,6 +217,13 @@ void Search1(Park &P,Park &P1,Sidewalk &S){
 	}
 
 }
+
+void change(ParkingLot* lot, int top, const char* new_plate)
+{
+    lot->spots[number] = new_plate;
+}
+ParkingLot lot;
+change_car_plate(&lot,top,new_plate);
 
 
 int main(){
