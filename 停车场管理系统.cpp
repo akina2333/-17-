@@ -223,7 +223,7 @@ void change(ParkingLot* lot, int top, const char* new_plate)
     lot->spots[number] = new_plate;
 }
 ParkingLot lot;
-change_car_plate(&lot,top,new_plate);
+change(&lot,top,new_plate);
 
 
 int main(){
