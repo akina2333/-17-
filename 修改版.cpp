@@ -34,6 +34,10 @@ typedef struct{
 	int front, rear;		
 }Waiting; 
 
+typedef struct {
+    char* spots[PMAX];
+} ParkingLot;
+
 CarNode c;
 Park p;
 Sidewalk s;
@@ -259,7 +263,7 @@ printf("请输入要删除信息的车牌号：\n");
 	if(p.top>= 0){
 		for(i =p.top;i>=0;i--){
 			if(strcmp(p.Park[i].number,C)==0){
-			printf("是否删除一下信息\n");
+			printf("是否删除以下信息\n");
 			scanf("%d",&d);
 			printf("\t车牌号\t\t停车位序\t当前所需支付金额\t进入时间\t\n");
 			printf("\t%s\t第%d个\t\t%0.f元\t\t\t%s",p.Park[i].number,i+1,money*(t-p.Park[i].ArriveTime),p.Park[i].ct);
@@ -279,9 +283,16 @@ printf("请输入要删除信息的车牌号：\n");
 	}
 }	
 }
-void Change(){
-	
+
+
+void change(ParkingLot* lot, int top, const char* new_plate)
+{
+    lot->spots[top] = new_plate;
 }
+ParkingLot lot;
+change(&lot,top,C);
+
+	
 void Welcome1(){
     printf ("\n\t-------------------------Welcome！---------------------\n");
     printf ("\t                                                      \n");
