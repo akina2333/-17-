@@ -204,12 +204,30 @@ void Stop_To_Pave(){
 
 
 void DisPlay(){
-	
+	int i = p.top;
+	if(i==-1)
+		printf("停车场目前为空\n");
+	time_t t1;
+	int t = time(&t1);
+	printf("\t车牌号\t\t停放时间\t当前所需支付金额\t停放位序\n");
+	while(i != -1){
+		printf("\t%s\t%d分%d秒\t\t%.0f元\t\t\t第%d个\n", p.Park[i].number, 
+		(t - p.Park[i].ArriveTime)/60,(t - p.Park[i].ArriveTime)%60,money*(t - p.Park[i].ArriveTime), i+1);
+		i--;
+	}
 }
 
 
 void DisPlayPave(){
-	
+	int i = s.front;
+	int k = 1;			
+	if(s.length==0)  
+	printf("便道目前为空\n");
+	printf("\t车牌号\t\t停放位序\n");
+	while(i != s.rear && k <=s.length){  
+		printf("\t%s\t第%d个\n", s.Side[i].number, k++);
+		i =(i+1)%SMAX;
+	}
 }
 
 
