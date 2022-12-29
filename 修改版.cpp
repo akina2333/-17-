@@ -251,7 +251,33 @@ void CarLeave_menu(){
 	}	
 } 
 void Delete(){
-	
+printf("请输入要删除信息的车牌号：\n");
+	scanf("%s", &C);
+	int i,j,k,d,flag=0;        
+	time_t t1;
+	long int t = time(&t1);
+	if(p.top>= 0){
+		for(i =p.top;i>=0;i--){
+			if(strcmp(p.Park[i].number,C)==0){
+			printf("是否删除一下信息\n");
+			scanf("%d",&d);
+			printf("\t车牌号\t\t停车位序\t当前所需支付金额\t进入时间\t\n");
+			printf("\t%s\t第%d个\t\t%0.f元\t\t\t%s",p.Park[i].number,i+1,money*(t-p.Park[i].ArriveTime),p.Park[i].ct);
+			flag=1;
+			break;
+			if(d==1){
+			   for(int j=i;j>=0;j--)
+			   {
+			   	p.Park[j].number=p.Park[j+1].number;
+			   	strcpy(p.Park[j].number=p.Park[j+1].number);
+			   	money*(t-p.Park[i].ArriveTime)=money*(t-p.Park[i+1].ArriveTime);
+			   	p.Park[i].ct=p.Park[i+1].ct;
+		        }
+			   }
+			   
+		}
+	}
+}	
 }
 void Change(){
 	
