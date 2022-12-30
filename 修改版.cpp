@@ -5,35 +5,41 @@
 #define PMAX  5  //停车场容量 
 #define SMAX  4  //便道容量 
 
+/**汽车信息结构体**/ 
 typedef struct{
-	int ArriveTime;				
-	int LeaveTime;			
-	char ct[50];
-	char number[10];		
+	int ArriveTime;	 //进入停车场时间			
+	int LeaveTime;	 //离开停车场时间 
+	char ct[50];     //时间串 
+	char number[10]; //字符串类型车牌号		
 }CarNode;
 
+/**停放车辆的栈**/ 
 typedef struct{
-	CarNode Park[PMAX];		
-	int top;			
+	CarNode Park[PMAX];		//用来停放车辆的栈 
+	int top;			//标记栈顶位置 
 }Park;
 
-typedef struct{    //停在便道 
-	CarNode Side[SMAX];		
-	int length;				
-	int front, rear;		
+/**停放车辆的便道**/ 
+typedef struct{     
+	CarNode Side[SMAX];		//便道上的队列 
+	int length;		        //标记队列等候车辆个数 
+	int front, rear;		//队头，队尾 
 }Sidewalk; 
 
+/**用来让路的栈**/ 
 typedef struct{
-	CarNode Let[PMAX];		
-	int top;				 
+	CarNode Let[PMAX];		//用来让路的栈 
+	int top;		        //标记栈顶位置 
 }Cache;						
 
+/**用来让路的队列**/ 
 typedef struct{					
-	CarNode Wait[SMAX];		
-	int length;				
-	int front, rear;		
+	CarNode Wait[SMAX];		//临时便道的队列 
+	int length;			//标记队列等候车辆个数 
+	int front, rear;		//队头，队尾 
 }Waiting; 
 
+//声明每个变量，结构体 
 CarNode c;
 Park p;
 Sidewalk s;
@@ -42,27 +48,27 @@ Waiting w;
 
 char     C[10];  //待查询车牌号 
 
-void Arrive();	
-void Leave();		
-void Stop_To_Pave();	
-void Stop_To_Buff();		
-void LeaveSidewalk();		
-void DisPlay();			
-void DisPlaySide();			
-void Welcome();	
-void Welcome1();	
-void Welcome2();				
-void Welcome3();
-void CarLeave_menu();
-void Search();
-void Delete();
+void Arrive();	            //车辆进入函数 
+void Leave();		    //车辆离开函数 
+void Stop_To_Side();	    //当停车场满时，车辆驶入便道 
+void Stop_To_Buff();        //有车辆驶出时车辆暂时驶入缓冲栈 
+void LeaveSidewalk();	    //车辆离开便道 
+void DisPlay();	            //显示停车场内的车辆位序 
+void DisPlaySide();	    //显示便道上的车辆位序 
+void Welcome();	            //用户界面 
+void Welcome1();	    //初始界面 
+void Welcome2();	    //离开界面 
+void Welcome3();            //管理员界面 
+void CarLeave_menu();       //车辆离开菜单 
+void Search();              //查询车辆信息函数 
+void Delete();              //删除车辆信息函数 
 
 
 void Arrive(){						 
 	printf("请输入您的车牌号：");
 	scanf("%s",&C);		
 	int i=p.top;
-	while(i!=-1){
+	while(i!=-1){           //从栈顶开始依次遍历，检查车牌是否重复 
 		if(0 == strcmp(p.Park[i].number,C)){
 			printf("输入有误，此汽车已存在！\n");
 			return ;
@@ -78,16 +84,16 @@ void Arrive(){
 		k--;
 	}
 	if (p.top>=PMAX-1){
-		Stop_To_Pave();		//进入便道	
+		Stop_To_Side();		//停车场已满进入便道函数	
 	}
 	else{
 		time_t t1;
-		long int t = time(&t1);	
-		char* t2;				
+		long int t = time(&t1);	 //记录停入时间 
+		char* t2;				 //将当前时间转化成字符串 
 		t2 = ctime(&t1); 
 		p.Park[++p.top].ArriveTime=t;
 		strcpy(p.Park[p.top].ct, t2);
-		strcpy(p.Park[p.top].number,C);
+		strcpy(p.Park[p.top].number,C);  //登记车牌号 
 		printf("牌照为%s的汽车停入停车位的%d车位，当前时间：%s\n",C,p.top+1,t2);
 	}
 }
@@ -96,23 +102,23 @@ void Leave(){
 	printf("请输入您的车牌号：");
 	scanf("%s", &C);
 	int i,j,flag=1;
-	if(p.top >= 0){							
-		for(i=p.top;i>=0;i--){		
+	if(p.top >= 0){			//在停车场内寻找该车牌				
+		for(i=p.top;i>=0;i--){		//存在则flag为0 
 			flag=flag*strcmp(p.Park[i].number,C);
 			i--;
 		}
 	}
-	if(0 == flag){							
+	if(0 == flag){			//当flag==0,汽车在停车场内				
 		Stop_To_Buff();							
 	}	
-	if(flag !=0 )				
+	if(flag !=0 )			//汽车不在停车场内	
 	printf("未查询到该车信息。\n"); 
 }
 
 void Search(){
 	printf("请输入要查询的车牌号：\n");
 	scanf("%s", &C);
-	int i,j,k,flag=0;        
+	int i,j,k,flag=0;        //flag用来标记车辆位置，在停车场为1 
 	time_t t1;
 	long int t = time(&t1);
 	if(p.top>= 0){
@@ -153,22 +159,22 @@ void LeaveSidewalk(){
 		printf("便道上不存在汽车!\n");
 		return;
 	}
-	while(s.length > 0){					 
+	while(s.length > 0){		//找到该车位置时退出循环			 
 		i = s.front; 
 		if(strcmp(s.Side[i].number,C)==0){
 			break;	
 		}
 		printf("牌照为%s的汽车暂时从便道进入临时便道\n", s.Side[s.front].number);
 		strcpy(w.Wait[w.rear].number, s.Side[s.front].number);
-		s.front=(s.front+1) %SMAX;	
-		w.rear=(w.rear+1) %SMAX;	
+		s.front=(s.front+1) %SMAX;	 //出s队列，队头指针移动 
+		w.rear=(w.rear+1) %SMAX;	 //入w队列，队尾指针移动 
 		w.length++;							
 		s.length--;							
 	}
-	printf("\n牌照为%s的汽车从便道上开走，不收取任何费用！\n\n",s.Side[i].number); 
-	s.front= (s.front+1)%SMAX;
+	printf("\n牌照为%s的汽车从便道上开走，不收取任何费用！\n\n",s.Side[i].number); //该车辆驶出 
+	s.front= (s.front+1)%SMAX;      //出s队列，队头指针移动 
 	s.length--;
-	while(s.length > 0){		
+	while(s.length > 0){		     //后面的车辆继续进入临时便道 
 		printf("牌照为%s的汽车暂时从便道进入临时便道\n",s.Side[s.front].number);
 		strcpy(w.Wait[w.rear].number,s.Side[s.front].number);
 		s.front = (s.front + 1) %SMAX;
@@ -176,7 +182,7 @@ void LeaveSidewalk(){
 		w.length++;
 		s.length--;
 	}
-	while(w.length > 0){		
+	while(w.length > 0){		     //临时便道的车辆返回便道 
 		printf("\n牌照为%s的汽车返回便道\n",w.Wait[w.front].number);
 		strcpy(s.Side[s.rear].number, w.Wait[w.front].number);
 		w.front = (w.front + 1) %SMAX;	 
@@ -187,7 +193,7 @@ void LeaveSidewalk(){
 }
 
 void Stop_To_Buff(){
-	while (p.top >= 0){	
+	while (p.top >= 0){	   //该车为栈顶时退出循环 
 		if(0 == strcmp(p.Park[p.top].number, C)){
 			break;
 		}
@@ -203,7 +209,7 @@ void Stop_To_Buff(){
 	printf("离开时间%s\n需付费%.0f元\n", t2, money * (p.Park[p.top].LeaveTime - p.Park[p.top].ArriveTime));
 	p.top--;
 	while(h.top > 0){
-		strcpy(p.Park[++p.top].number, h.Let[--h.top].number);
+		strcpy(p.Park[++p.top].number, h.Let[--h.top].number);   //用来栈之间挪位置 
 		printf("牌照为%s的汽车停回停车位%d车位\n",h.Let[h.top].number, p.top+1);
 	}
 	while(p.top < PMAX-1){
@@ -222,7 +228,7 @@ void Stop_To_Buff(){
 	}
 }
 
-void Stop_To_Pave(){
+void Stop_To_Side(){  //当停车场满时驶入便道 
 	if(s.length > 0 && (s.front == (s.rear + 1) % SMAX))
 		printf("便道已满，请下次再来！\n");
 	else{
@@ -233,7 +239,7 @@ void Stop_To_Pave(){
 	}
 }
 
-void DisPlay(){
+void DisPlay(){   //显示停车场内的车辆位序 
 	int i = p.top;
 	if(i==-1)
 		printf("停车场目前为空\n");
@@ -247,7 +253,7 @@ void DisPlay(){
 	}
 }
 
-void DisPlaySide(){
+void DisPlaySide(){  //显示便道上的停车位序 
 	int i = s.front;
 	int k = 1;			
 	if(s.length==0)  
@@ -259,7 +265,7 @@ void DisPlaySide(){
 	}
 }
 
-void CarLeave_menu(){
+void CarLeave_menu(){  //汽车离开菜单 
 	while(1){
 		Welcome2();	
 		int i,flag;
@@ -280,7 +286,7 @@ void CarLeave_menu(){
 	}	
 } 
 
-void Delete(){
+void Delete(){  //删除汽车信息 
 	printf("请输入要删除的车的车牌号：\n");
 	scanf("%s",&C);
 	int i,flag=0;       
@@ -444,14 +450,14 @@ int main(){
 	} 
 	if(n!=1&&n!=2&&n!=3){
 		printf("\n您的输入有误，请输入0返回\n");
-			good:	
+			good:	            //goto标志位 
 				scanf("%d", &cho);
 			if(0 == cho){
 				continue;
 			}
 			else{
 				printf("您的输入有误，请重新输入\n");
-				goto good;	
+				goto good;	    //goto到标志位good 
 			}
 	}
 	
