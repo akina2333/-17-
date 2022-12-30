@@ -1,8 +1,6 @@
 #include <stdio.h>		
 #include <string.h>			
 #include <time.h>	
-#include <malloc.h>	
-#include <stdlib.h>	
 #define money  0.03  //停车场计费	 
 #define PMAX  5  //停车场容量 
 #define SMAX  4  //便道容量 
@@ -45,26 +43,20 @@ Waiting w;
 char     C[10];  //待查询车牌号 
 
 void Arrive();	
-void CarLeave();		
+void Leave();		
 void Stop_To_Pave();	
 void Stop_To_Buff();		
 void LeaveSidewalk();		
 void DisPlay();			
-void DisPlayPave();			
-void Welcome();				
-void Welcome2();
+void DisPlaySide();			
+void Welcome();	
+void Welcome1();	
+void Welcome2();				
+void Welcome3();
 void CarLeave_menu();
 void Search();
-int Delete();
+void Delete();
 
-
-void Push(Park p,CarNode x){
-	if(p.top>=PMAX-1){
-		return;
-	}else{
-		p.Park[++p.top]=x;
-	}
-}
 
 void Arrive(){						 
 	printf("请输入您的车牌号：");
@@ -255,7 +247,7 @@ void DisPlay(){
 	}
 }
 
-void DisPlayPave(){
+void DisPlaySide(){
 	int i = s.front;
 	int k = 1;			
 	if(s.length==0)  
@@ -288,7 +280,7 @@ void CarLeave_menu(){
 	}	
 } 
 
-int Delete(){
+void Delete(){
 	printf("请输入要删除的车的车牌号：\n");
 	scanf("%s",&C);
 	int i,flag=0;       
@@ -322,7 +314,7 @@ int Delete(){
 		}
 		printf("删除成功！"); 
 	} 
-	return 1;
+
 }
 
 void Welcome1(){     // 初始界面 
@@ -365,7 +357,6 @@ void Welcome3(){   //管理员界面
 }
 
 void Welcome(){   //用户界面 
-
 	printf ("\t*******************当前停车场停放情况*******************\n");
     printf ("\t\t当前停车场共有%d/%d辆车,等候区共有%d/%d辆车\n",p.top+1,PMAX,(s.rear +SMAX - s.front) % SMAX, SMAX-1);
     printf ("\t********************************************************\n\n");
@@ -426,7 +417,7 @@ int main(){
 			int i;
 			scanf("%d", &i);
 			if(1 == i)  DisPlay();
-			if(2 == i)  DisPlayPave();
+			if(2 == i)  DisPlaySide();
 			if(3 == i)  Delete();
 			if(4 == i)  {
 							printf("\n欢迎下次使用，再见！\n\n");
