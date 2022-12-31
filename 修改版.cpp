@@ -3,7 +3,7 @@
 #include <time.h>	
 #define money  0.03  //停车场计费	 
 #define PMAX  5  //停车场容量 
-#define SMAX  4  //便道容量 
+#define SMAX  4  //便道容量+1
 
 /**汽车信息结构体**/ 
 typedef struct{
@@ -83,7 +83,7 @@ void Arrive(){
 		}
 		k--;
 	}
-	if (p.top>=PMAX-1){
+	if (p.top>=PMAX-1){         //length>=PMAX
 		Stop_To_Side();		//停车场已满进入便道函数	
 	}
 	else{
@@ -93,7 +93,7 @@ void Arrive(){
 		t2 = ctime(&t1); 
 		p.Park[++p.top].ArriveTime=t;
 		strcpy(p.Park[p.top].ct, t2);
-		strcpy(p.Park[p.top].number,C);  //登记车牌号 
+		strcpy(p.Park[p.top].number,C);  //复制登记时间和车牌号 
 		printf("牌照为%s的汽车停入停车位的%d车位，当前时间：%s\n",C,p.top+1,t2);
 	}
 }
@@ -402,7 +402,7 @@ int main(){
 			if(3 == i)  Search();
 			if(4 == i)  {
 							printf("\n欢迎下次使用，再见！\n\n");
-							break;
+							return 0;
 						} 
 			if(5==i) break;
 			printf("\n返回请输入0\n");
