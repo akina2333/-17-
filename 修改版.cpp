@@ -1,7 +1,7 @@
 #include <stdio.h>		
 #include <string.h>			
 #include <time.h>	
-#define money  0.03  //停车场计费	 
+#define money  0.01  //停车场计费	 
 #define PMAX  5  //停车场容量 
 #define SMAX  4  //便道容量+1
 
@@ -342,7 +342,7 @@ void Welcome2(){    //离开界面
     printf ("\t                   1.从停车场内驶出                 \n");
     printf ("\t                   2.从便道上驶出                   \n");
     printf ("\t                   3.返回上一级                    \n\n\n");
-    printf ("\t收费标准：本停车场按照0.03元/分钟计费            \n\n");
+    printf ("\t收费标准：本停车场按照%lf元/分钟计费            \n\n",money*60);
     printf ("\t------------------------------------------------------\n");
     printf ("\t请输入(1/2/3)：\n");
 }
@@ -373,7 +373,7 @@ void Welcome(){   //用户界面
     printf ("\t                   3.查询车辆                       \n");
     printf ("\t                   4.退出系统                     \n");
     printf ("\t                   5.返回上一级                       \n\n\n");
-    printf ("\t收费标准：本停车场按照0.03元/分钟计费            \n\n");
+    printf ("\t收费标准：本停车场按照%lf元/分钟计费            \n\n",money*60);
     printf ("\t------------------------------------------------------\n");
     printf ("\t请输入(1/2/3/4)：\n");
     
